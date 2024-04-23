@@ -33,7 +33,8 @@ class BorrowingDetailSerializer(BorrowingSerializer):
             "book",
             "borrow_date",
             "expected_return_date",
-            "actual_return_date"
+            "actual_return_date",
+            "is_active"
         )
 
 
@@ -45,7 +46,7 @@ class BorrowingCreateSerializer(BorrowingSerializer):
         fields = (
             "book",
             "borrow_date",
-            "expected_return_date"
+            "expected_return_date",
         )
 
     def validate(self, attrs):

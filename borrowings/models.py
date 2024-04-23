@@ -41,3 +41,9 @@ class Borrowing(models.Model):
                 name='valid_actual_return_date'
             )
         ]
+
+    @property
+    def is_active(self) -> bool:
+        if not self.actual_return_date:
+            return True
+        return False
