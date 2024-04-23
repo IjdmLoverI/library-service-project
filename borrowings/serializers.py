@@ -1,11 +1,11 @@
 from django.db import transaction
 from django.db.models import F
+from django.utils import timezone
 from rest_framework import serializers
 
 from books.models import Book
-from books.serializers import BookSerializer
 from borrowings.models import Borrowing
-from users.serializers import UserSerializer
+from users.models import User
 
 
 class BorrowingSerializer(serializers.ModelSerializer):
@@ -68,3 +68,21 @@ class BorrowingCreateSerializer(BorrowingSerializer):
         )
 
         return borrowing
+
+
+class ReturnBorrowingSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Borrowing
+        fields = ["id"]
+
+    def update(self, instance, validated_data):
+        if instance.actual_return_date is not None:
+            raise serializers.ValidationError("This borrowing has already been returned.")
+
+        instance.actual_return_date = timezone.now()
+        instance.book.inventory += 1
+        instance.book.save()
+        instance.save()
+        print("11111")
+
+        return instance
