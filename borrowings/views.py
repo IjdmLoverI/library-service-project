@@ -6,8 +6,10 @@ from borrowings.serializers import BorrowingDetailSerializer
 
 
 class BorrowingListView(generics.ListAPIView):
-    queryset = Borrowing.objects.all()
     serializer_class = BorrowingDetailSerializer
+
+    def get_queryset(self):
+        return Borrowing.objects.filter(user=self.request.user)
 
 
 class BorrowingDetailView(generics.RetrieveAPIView):
