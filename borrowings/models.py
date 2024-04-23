@@ -2,6 +2,7 @@ from datetime import timedelta
 
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
+from django.db.models import F
 from django.utils.translation import gettext as _
 from django.db import models
 from django.utils import timezone
@@ -47,3 +48,11 @@ class Borrowing(models.Model):
         if not self.actual_return_date:
             return True
         return False
+
+    def return_borrowing(self):
+        if self.actual_return_date:
+            raise ValueError("This borrowing has already been returned")
+        self.actual_return_date = timezone.now()
+        self.book.inventory = F("inventory") + 1
+        self.book.save()
+        self.delete()
