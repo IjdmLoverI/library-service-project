@@ -1,4 +1,6 @@
 import os
+from datetime import datetime
+
 import django
 import telebot
 import sqlite3
@@ -53,12 +55,24 @@ def check_borrowings(message, user):
         for borrowing in borrowings:
             response += f"- Book: {borrowing.book}\n"
             response += f"- Borrow date: {borrowing.borrow_date}\n"
-            response += f"- Expiration date: {borrowing.expected_return_date}\n"
+            response += f"- Expected return date: {borrowing.expected_return_date}\n"
+
+            days_overdue = (datetime.now() - datetime.combine(borrowing.expected_return_date, datetime.min.time())).days
+            if days_overdue > 0:
+                fee = borrowing.book.daily_fee * days_overdue
+                response += f"- fee: {fee}"
+            else:
+                response += "- No fee\n"
             response += "###############################\n"
         bot.reply_to(message, response)
     else:
         bot.reply_to(message, "You don't have any borrowings.")
 
 
+################################################
+# TODO Integrate sending notifications on new
+# borrowing creation (provide info about this
+# borrowing in the message)
+#################################################
 
 bot.polling()
