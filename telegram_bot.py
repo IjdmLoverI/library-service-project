@@ -70,7 +70,7 @@ def check_borrowings(message, user):
 
 
 ################################################
-# TODO Integrate sending notifications on new
+# TO DO Integrate sending notifications on new
 # borrowing creation (provide info about this
 # borrowing in the message)
 #################################################
