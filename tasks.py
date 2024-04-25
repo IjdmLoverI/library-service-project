@@ -20,4 +20,4 @@ def send_notification():
     message = "Don't forget to check your borrowings, to do it, pls login"
     for user in users:
         chat_id = user.telegram_chat_id
-        bot.send_message(chat_id, message)
+        bot.send_message(chat_id, message, parse_mode="html")

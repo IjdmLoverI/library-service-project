@@ -1,7 +1,7 @@
 from __future__ import absolute_import, unicode_literals
 import os
-from celery import Celery, current_app
-from celery.schedules import timedelta
+from celery import Celery
+from celery.schedules import crontab
 
 from tasks import send_notification
 
@@ -17,5 +17,8 @@ app.autodiscover_tasks()
 
 @app.on_after_configure.connect
 def setup_periodic_tasks(sender, **kwargs):
-    # Calls send_notification() every 5 seconds
-    sender.add_periodic_task(5.0, send_notification.s(), name='Check borrowings every 5 seconds')
+    sender.add_periodic_task(
+        crontab(hour="12", minute="0"),
+        send_notification(),
+        name='Check borrowings daily at 12 PM'
+    )

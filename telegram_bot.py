@@ -37,6 +37,7 @@ def handle_message(message):
         try:
             user = User.objects.get(email=email)
             user.telegram_chat_id = chat_id
+            user.save()
             if user.check_password(password):
                 bot.reply_to(message, "Login successful.")
                 check_borrowings(message, user)
