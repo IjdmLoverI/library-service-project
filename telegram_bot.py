@@ -1,9 +1,9 @@
 import os
 from datetime import datetime
-
 import django
 import telebot
 import sqlite3
+from library_service_project import settings
 
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'library_service_project.settings')
@@ -12,9 +12,7 @@ django.setup()
 from users.models import User
 from borrowings.models import Borrowing
 
-
-TELEGRAM_BOT_TOKEN: str = "7043047188:AAHm7qvRAeDwI9brIuOzjn9EW-KKXEzbkfQ"
-bot = telebot.TeleBot(TELEGRAM_BOT_TOKEN)
+bot = telebot.TeleBot(settings.TELEGRAM_BOT_TOKEN)
 
 conn = sqlite3.connect("db.sqlite3")
 cursor = conn.cursor()
@@ -38,6 +36,8 @@ def handle_message(message):
         password = message.text
         try:
             user = User.objects.get(email=email)
+            user.telegram_chat_id = chat_id
+            user.save()
             if user.check_password(password):
                 bot.reply_to(message, "Login successful.")
                 check_borrowings(message, user)
@@ -63,7 +63,7 @@ def check_borrowings(message, user):
                 response += f"- fee: {fee}"
             else:
                 response += "- No fee\n"
-            response += "###############################\n"
+            response += "##############################\n"
         bot.reply_to(message, response)
     else:
         bot.reply_to(message, "You don't have any borrowings.")

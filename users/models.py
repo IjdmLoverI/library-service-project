@@ -40,6 +40,7 @@ class UserManager(DjangoUserManager):
 class User(AbstractUser):
     """User model."""
 
+    telegram_chat_id = models.BigIntegerField(null=True, blank=True, unique=True)
     username = None
     email = models.EmailField(_('email address'), unique=True)
 
