@@ -4,7 +4,7 @@ from django.utils import timezone
 from rest_framework import serializers
 
 from books.models import Book
-from borrowings.models import Borrowing
+from borrowings.models import Borrowing, Payment
 from users.models import User
 
 
@@ -86,3 +86,17 @@ class ReturnBorrowingSerializer(serializers.ModelSerializer):
         print("11111")
 
         return instance
+
+
+class PaymentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Payment
+        fields = (
+            "type",
+            "status",
+            "borrowing_id",
+            "session_url",
+            "session_id",
+            "money_to_pay"
+        )
+
