@@ -1,3 +1,8 @@
+import stripe
+from django.conf import settings
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_http_methods
 from rest_framework import generics, status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -72,3 +77,36 @@ class PaymentDetailView(generics.RetrieveAPIView):
 class PaymentCreateView(generics.CreateAPIView):
     serializer_class = PaymentSerializer
     permission_classes = [IsAdminOrOwner]
+
+
+stripe.api_key = settings.STRIPE_API_KEY
+
+
+@require_http_methods(["POST", "GET"])
+@csrf_exempt
+def create_checkout_session(request):
+    try:
+        checkout_session = stripe.checkout.Session.create(
+            payment_method_types=['card'],
+            line_items=[{
+                'price_data': {
+                    'currency': 'usd',
+                    'product_data': {
+                        'name': 'Custom Product',
+                    },
+                    'unit_amount': 2000,
+                },
+                'quantity': 1,
+            }],
+            mode='payment',
+            success_url='http://localhost:8000/api/borrowings/borrowings/',
+            cancel_url='http://localhost:8000/api/borrowings/borrowings/',
+        )
+        return JsonResponse({
+            'id': checkout_session.id,
+            'url': checkout_session.url
+        })
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=400)
+
+

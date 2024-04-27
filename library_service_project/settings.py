@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/5.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
-
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -147,3 +147,5 @@ CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
 
 
 TELEGRAM_BOT_TOKEN: str = "7043047188:AAHm7qvRAeDwI9brIuOzjn9EW-KKXEzbkfQ"
+
+STRIPE_API_KEY = "sk_test_51PA5fTIHFt9NhTckOX2IZVbDBfXkElbMl1FVxsVL35ViOkQrcQy0wMrbYWkQgZkjQOe1rsXopKPcLhvZMmtnyDvU0009zClxQX"
