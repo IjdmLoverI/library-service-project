@@ -100,3 +100,4 @@ class PaymentSerializer(serializers.ModelSerializer):
             "money_to_pay"
         )
 
+
