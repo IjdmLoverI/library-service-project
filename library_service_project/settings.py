@@ -20,7 +20,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-0q3n@2d(&7(1*$=kcan1fx^+w+_hde-)qm3q21$02_y$2^hlx&'
+SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -146,6 +146,6 @@ CELERY_TASK_SERIALIZER = 'json'
 CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
 
 
-TELEGRAM_BOT_TOKEN: str = "7043047188:AAHm7qvRAeDwI9brIuOzjn9EW-KKXEzbkfQ"
+TELEGRAM_BOT_TOKEN: str = os.environ.get('TELEGRAM_BOT_TOKEN')
 
-STRIPE_API_KEY = "sk_test_51PA5fTIHFt9NhTckOX2IZVbDBfXkElbMl1FVxsVL35ViOkQrcQy0wMrbYWkQgZkjQOe1rsXopKPcLhvZMmtnyDvU0009zClxQX"
+STRIPE_API_KEY = os.environ.get("STRIPE_API_KEY")
