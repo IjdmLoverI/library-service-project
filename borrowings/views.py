@@ -100,7 +100,7 @@ def create_checkout_session(request):
             }],
             mode='payment',
             success_url='http://localhost:8000/api/borrowings/borrowings/',
-            cancel_url='http://localhost:8000/api/borrowings/borrowings/',
+            cancel_url='http://localhost:8000/api/borrowings/payments/',
         )
         return JsonResponse({
             'id': checkout_session.id,
