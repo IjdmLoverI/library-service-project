@@ -9,8 +9,12 @@ from rest_framework.response import Response
 
 from borrowings.models import Borrowing, Payment
 from borrowings.permissions import IsAdminOrOwner
-from borrowings.serializers import BorrowingDetailSerializer, BorrowingCreateSerializer, ReturnBorrowingSerializer, \
+from borrowings.serializers import (
+    BorrowingDetailSerializer,
+    BorrowingCreateSerializer,
+    ReturnBorrowingSerializer,
     PaymentSerializer
+)
 
 
 class BorrowingListView(generics.ListAPIView):
