@@ -17,6 +17,9 @@ from borrowings.serializers import (
 )
 
 
+stripe.api_key = settings.STRIPE_API_KEY
+
+
 class BorrowingListView(generics.ListAPIView):
     serializer_class = BorrowingDetailSerializer
 
@@ -81,9 +84,6 @@ class PaymentDetailView(generics.RetrieveAPIView):
 class PaymentCreateView(generics.CreateAPIView):
     serializer_class = PaymentSerializer
     permission_classes = [IsAdminOrOwner]
-
-
-stripe.api_key = settings.STRIPE_API_KEY
 
 
 @require_http_methods(["POST", "GET"])
